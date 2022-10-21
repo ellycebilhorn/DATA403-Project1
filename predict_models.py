@@ -5,7 +5,9 @@ import pandas as pd
 import sys
 from sklearn.metrics import r2_score
 
-
+'''
+Predictive Models and Cross-val
+'''
 
 def coef_mat(X, Y):
     xtx = np.linalg.inv(np.matmul(X.T, X))
@@ -69,8 +71,7 @@ X_train, X_test, y_train, y_test = train_test_split(bottles_sold_df, Y, test_siz
 best_lambda_1 = 0
 min_training_error = 0
 min_err = 1000000
-#for L in range(10, 20000, 10):
-for L in range(7010, 7011):
+for L in range(10, 20000, 10):
     betas1 = ridge_betas(X_train, y_train, L)
     y_hat = ridge_regression(X_train, y_train, L, betas1)
     #y_hat = ols_regression(X_train, y_train)
@@ -78,34 +79,15 @@ for L in range(7010, 7011):
     y_hat = ridge_regression(X_test, y_test, L, betas1)
     #y_hat = ols_regression(X_test, y_test)
     testing_err = average_pct_err(y_test, y_hat)
-    r_squared_v = r2_score(y_test, y_hat)
     if testing_err < min_err:
         best_lambda_1 = L
         min_err = testing_err
         min_training_error = training_err
+        r_squared_v = r2_score(y_test, y_hat)
 print("BOTTLES SOLD BEST LAMBDA: ", best_lambda_1)
 print("BOTTLES SOLD TRAINING ERROR: ", min_training_error)
 print("BOTTLES SOLD TESTING ERROR: ", min_err)
 print("BOTTLES SOLD R SQUARED: ", r_squared_v)
-
-# L = 19990
-# betas1 = ridge_betas(X_train, y_train, L)
-# print("BOTTLES SOLD VARIANCE: ", np.var(betas1))
-# bottles_coefs = pd.concat([bottles_columns, pd.Series(abs(betas1))], axis=1).sort_values(by=1, ascending=False)
-# y_hat = ridge_regression(X_train, y_train, L, betas1)
-# #y_hat = ols_regression(X_train, y_train)
-# err = average_pct_err(y_train, y_hat)
-# print("BOTTLES SOLD TRAINING ERROR: ", err)
-
-# # Testing Set
-# #L = 2000
-# y_hat = ridge_regression(X_test, y_test, L, betas1)
-# #y_hat = ols_regression(X_test, y_test)
-# err = average_pct_err(y_test, y_hat)
-# #print(y_test, y_hat)
-# #print(y_test, y_hat)
-# print("BOTTLES SOLD TESTING ERROR: ", err)
-
 
 ##################### Sales volume per capita #####################
 scaler = StandardScaler()
@@ -124,8 +106,7 @@ X_train, X_test, y_train, y_test = train_test_split(sales_volume_df, Y, test_siz
 best_lambda_1 = 0
 min_training_error = 0
 min_err = 1000000
-#for L in range(10, 20000, 10):
-for L in range(8220, 8221):
+for L in range(10, 20000, 10):
     betas1 = ridge_betas(X_train, y_train, L)
     y_hat = ridge_regression(X_train, y_train, L, betas1)
     #y_hat = ols_regression(X_train, y_train)
@@ -133,30 +114,15 @@ for L in range(8220, 8221):
     y_hat = ridge_regression(X_test, y_test, L, betas1)
     #y_hat = ols_regression(X_test, y_test)
     testing_err = average_pct_err(y_test, y_hat)
-    r_squared_v = r2_score(y_test, y_hat)
     if testing_err < min_err:
         best_lambda_1 = L
         min_err = testing_err
         min_training_error = training_err
+        r_squared_v = r2_score(y_test, y_hat)
 print("SALES VOLUME BEST LAMBDA: ", best_lambda_1)
 print("SALES VOLUME TRAINING ERROR: ", min_training_error)
 print("SALES VOLUME TESTING ERROR: ", min_err)
 print("SALES VOLUME R SQUARED: ", r_squared_v)
-# L = 1000
-# betas1 = ridge_betas(X_train, y_train, L)
-# print("SALES VOLUME VARIANCE: ", np.var(betas1))
-
-# #sales_coef = pd.concat([sales_volume_columns, pd.Series(betas1)], axis=1)
-# #sales_coef = new_df.sort_values(by=1, ascending=False)
-# y_hat = ridge_regression(X_train, y_train, L, betas1)
-# err = average_pct_err(y_train, y_hat)
-# print("SALES VOLUME TRAINING ERROR: ", err)
-
-# # Testing Set
-# y_hat = ridge_regression(X_test, y_test, L, betas1)
-# err = average_pct_err(y_test, y_hat)
-# #print(y_test, y_hat)
-# print("SALES VOLUME TESTING ERROR: ", err)
 
 #####################  Volume of sold alcohol per capita #####################
 scaler = StandardScaler()
@@ -176,8 +142,7 @@ X_train, X_test, y_train, y_test = train_test_split(volume_df, Y, test_size=0.2,
 best_lambda_1 = 0
 min_training_error = 0
 min_err = 1000000
-#for L in range(10, 20000, 10):
-for L in range(8600, 8601):
+for L in range(10, 20000, 10):
     betas1 = ridge_betas(X_train, y_train, L)
     y_hat = ridge_regression(X_train, y_train, L, betas1)
     #y_hat = ols_regression(X_train, y_train)
@@ -185,31 +150,16 @@ for L in range(8600, 8601):
     y_hat = ridge_regression(X_test, y_test, L, betas1)
     #y_hat = ols_regression(X_test, y_test)
     testing_err = average_pct_err(y_test, y_hat)
-    r_squared_v = r2_score(y_test, y_hat)
     if testing_err < min_err:
         best_lambda_1 = L
         min_err = testing_err
         min_training_error = training_err
+        r_squared_v = r2_score(y_test, y_hat)
+
 print("VOLUME SOLD BEST LAMBDA: ", best_lambda_1)
 print("VOLUME SOLD TRAINING ERROR: ", min_training_error)
 print("VOLUME SOLD TESTING ERROR: ", min_err)
 print("VOLUME SOLD R SQUARED: ", r_squared_v)
-# L = 10000
-# betas1 = ridge_betas(X_train, y_train, L)
-# print("VOLUME SOLD VARIANCE: ", np.var(betas1))
-
-# new_df = pd.concat([volume_columns, pd.Series(betas1)], axis=1)
-# #print(new_df.sort_values(by=1, ascending=False))
-# y_hat = ridge_regression(X_train, y_train, L, betas1)
-# err = average_pct_err(y_train, y_hat)
-# print("VOLUME SOLD TRAINING ERROR: ", err)
-
-# # Testing Set
-# y_hat = ridge_regression(X_test, y_test, L, betas1)
-# err = average_pct_err(y_test, y_hat)
-# #print(y_test, y_hat)
-# print("VOLUME SOLD TESTING ERROR: ", err)
-
 
 ##################### State Profit per capita #####################
 scaler = StandardScaler()
@@ -228,8 +178,7 @@ X_train, X_test, y_train, y_test = train_test_split(state_profit_df, Y, test_siz
 best_lambda_1 = 0
 min_training_error = 0
 min_err = 1000000
-#for L in range(10, 20000, 10):
-for L in range(12940, 12941):
+for L in range(10, 20000, 10):
     betas1 = ridge_betas(X_train, y_train, L)
     y_hat = ridge_regression(X_train, y_train, L, betas1)
     #y_hat = ols_regression(X_train, y_train)
@@ -237,28 +186,128 @@ for L in range(12940, 12941):
     y_hat = ridge_regression(X_test, y_test, L, betas1)
     #y_hat = ols_regression(X_test, y_test)
     testing_err = average_pct_err(y_test, y_hat)
-    r_squared_v = r2_score(y_test, y_hat)
     if testing_err < min_err:
         best_lambda_1 = L
         min_err = testing_err
         min_training_error = training_err
+        r_squared_v = r2_score(y_test, y_hat)
+
 print("STATE PROFIT BEST LAMBDA: ", best_lambda_1)
 print("STATE PROFIT TRAINING ERROR: ", min_training_error)
 print("STATE PROFIT TESTING ERROR: ", min_err)
 print("STATE PROFIT R SQUARED: ", r_squared_v)
-# L = 10000
-# betas1 = ridge_betas(X_train, y_train, L)
-# print("STATE PROFIT VARIANCE: ", np.var(betas1))
 
-# new_df = pd.concat([profit_columns, pd.Series(betas1)], axis=1)
-# #print(new_df.sort_values(by=1, ascending=False))
-# y_hat = ridge_regression(X_train, y_train, L, betas1)
-# err = average_pct_err(y_train, y_hat)
-# print("STATE PROFIT TRAINING ERROR: ", err)
+# ALL BUT ONE CROSS VALIDATION:
+##################### Bottles Sold per capita #####################
+Y = grouped_df['Bottles Sold per capita']
 
-# # Testing Set
-# L = 100
-# y_hat = ridge_regression(X_test, y_test, L, betas1)
-# err = average_pct_err(y_test, y_hat)
-# #print(y_test, y_hat)
-# print("STATE PROFIT TESTING ERROR: ", err)
+total_training_error = 0
+total_testing_error = 0
+MSE = 0
+r2 = 0
+for i in range(bottles_sold_df.shape[0]):
+    y_train = Y.drop(i)
+    y_test = Y[i]
+    X_train = bottles_sold_df.drop(i)
+    X_test = bottles_sold_df.iloc[i]
+    L = 7010
+    betas1 = ridge_betas(X_train, y_train, L)
+    y_hat = ridge_regression(X_train, y_train, L, betas1)
+    err = average_pct_err(y_train, y_hat)
+    total_training_error += err
+
+    # Testing Set
+    y_hat = ridge_regression(X_test, y_test, L, betas1)
+    err = average_pct_err(y_test, y_hat)
+    total_testing_error += err
+    curr_MSE = y_test - y_hat
+    curr_MSE *= curr_MSE
+    MSE += curr_MSE
+print("AVERAGE BOTTLES SOLD TRAINING ERROR: ", total_training_error/bottles_sold_df.shape[0])
+print("AVERAGE BOTTLES SOLD TESTING ERROR: ", total_testing_error/bottles_sold_df.shape[0])
+print("AVERAGE BOTTLES SOLD MSE: ", MSE/bottles_sold_df.shape[0])
+
+##################### Sales volume per capita #####################
+
+Y = grouped_df['Sales per capita (Dollars)']
+total_training_error = 0
+total_testing_error = 0
+MSE = 0
+r2 = 0
+for i in range(sales_volume_df.shape[0]):
+    y_train = Y.drop(i)
+    y_test = Y[i]
+    X_train = sales_volume_df.drop(i)
+    X_test = sales_volume_df.iloc[i]
+    L = 8220
+    betas1 = ridge_betas(X_train, y_train, L)
+    y_hat = ridge_regression(X_train, y_train, L, betas1)
+    err = average_pct_err(y_train, y_hat)
+    total_training_error += err
+
+    # Testing Set
+    y_hat = ridge_regression(X_test, y_test, L, betas1)
+    err = average_pct_err(y_test, y_hat)
+    total_testing_error += err
+    
+    curr_MSE = y_test - y_hat
+    MSE += curr_MSE
+
+print("AVERAGE SALES VOLUME TRAINING ERROR: ", total_training_error/sales_volume_df.shape[0])
+print("AVERAGE SALES VOLUME TESTING ERROR: ", total_testing_error/sales_volume_df.shape[0])
+print("AVERAGE SALES VOLUME MSE: ", MSE/sales_volume_df.shape[0])
+
+#####################  Volume of sold alcohol per capita #####################
+Y = grouped_df['Liters Sold per capita']
+total_training_error = 0
+total_testing_error = 0
+MSE = 0
+r2 = 0
+for i in range(volume_df.shape[0]):
+    y_train = Y.drop(i)
+    y_test = Y[i]
+    X_train = volume_df.drop(i)
+    X_test = volume_df.iloc[i]
+    L = 8600
+    betas1 = ridge_betas(X_train, y_train, L)
+    y_hat = ridge_regression(X_train, y_train, L, betas1)
+    err = average_pct_err(y_train, y_hat)
+    total_training_error += err
+
+    # Testing Set
+    y_hat = ridge_regression(X_test, y_test, L, betas1)
+    err = average_pct_err(y_test, y_hat)
+    total_testing_error += err
+    curr_MSE = y_test - y_hat
+    MSE += curr_MSE
+
+print("AVERAGE VOLUME SOLD TRAINING ERROR: ", total_training_error/volume_df.shape[0])
+print("AVERAGE VOLUME SOLD TESTING ERROR: ", total_testing_error/volume_df.shape[0])
+print("AVERAGE VOLUME SOLD MSE: ", MSE/volume_df.shape[0])
+
+##################### State Profit per capita #####################
+Y = grouped_df['Sales per capita (Dollars)']
+total_training_error = 0
+total_testing_error = 0
+MSE = 0
+r2 = 0
+for i in range(state_profit_df.shape[0]):
+    y_train = Y.drop(i)
+    y_test = Y[i]
+    X_train = state_profit_df.drop(i)
+    X_test = state_profit_df.iloc[i]
+    L = 12940
+    betas1 = ridge_betas(X_train, y_train, L)
+    y_hat = ridge_regression(X_train, y_train, L, betas1)
+    err = average_pct_err(y_train, y_hat)
+    total_training_error += err
+
+    # Testing Set
+    y_hat = ridge_regression(X_test, y_test, L, betas1)
+    err = average_pct_err(y_test, y_hat)
+    total_testing_error += err
+    curr_MSE = y_test - y_hat
+    MSE += curr_MSE
+print("AVERAGE STATE PROFIT TRAINING ERROR: ", total_training_error/state_profit_df.shape[0])
+print("AVERAGE STATE PROFIT TESTING ERROR: ", total_testing_error/state_profit_df.shape[0])
+print("AVERAGE STATE PROFIT MSE: ", MSE/state_profit_df.shape[0])

@@ -1,8 +1,10 @@
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from pathlib import Path  
+
+'''
+File that generates the grouped dataframe
+'''
 
 def get_month(string):
     return string.split("/")[0]
@@ -26,4 +28,4 @@ grouped_df = pd.get_dummies(grouped_df, columns=['Month', 'County'])
 
 filepath = Path('grouped_df.csv')  
 filepath.parent.mkdir(parents=True, exist_ok=True)  
-grouped_df.to_csv(filepath) 
+grouped_df.to_csv(filepath)
